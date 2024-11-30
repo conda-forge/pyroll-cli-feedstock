@@ -1,6 +1,6 @@
 {% set name = "pyroll-cli" %}
-{% set version = "2.1.1" %}
-{% set python_min = "3.10" %}
+{% set version = "3.0.0" %}
+{% set python_min = "3.11" %}
 
 package:
   name: {{ name|lower }}
@@ -8,14 +8,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyroll_cli-{{ version }}.tar.gz
-  sha256: 108ae72f228918b51fc5e66a314958413f362c9eb002cf7d9f0a0078f03ac691
+  sha256: 0879b82a207b9e460a7c437f07ea3543219eff9cd3aa17bd5d8188471cd581ed
 
 build:
   entry_points:
     - pyroll = pyroll.cli.program:run_cli
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
 
 requirements:
   host:
@@ -24,7 +24,7 @@ requirements:
     - pip
   run:
     - python >={{ python_min }}
-    - pyroll-core >=2.0,<3.dev0
+    - pyroll-core >=3.0,<4.dev0
     - click >=8.0,<9.dev0
     - tomli >=2.0,<3.dev0
     - tomli-w >=1.0,<2.dev0
