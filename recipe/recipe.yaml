@@ -1,0 +1,60 @@
+schema_version: 1
+
+context:
+  name: pyroll-cli
+  version: 3.0.0
+  python_min: 3.11
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pyroll_cli-${{ version }}.tar.gz
+  sha256: 0879b82a207b9e460a7c437f07ea3543219eff9cd3aa17bd5d8188471cd581ed
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  python:
+    entry_points:
+      - pyroll = pyroll.cli.program:run_cli
+
+requirements:
+  host:
+    - python 3.11.*
+    - hatchling
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - pyroll-core >=3.0,<4.dev0
+    - click >=8.0,<9.dev0
+    - tomli >=2.0,<3.dev0
+    - tomli-w >=1.0,<2.dev0
+    - jinja2 >=3.0,<4.dev0
+    - rich >=13.0,<14.dev0
+    - click-repl >=0.2,<1.dev0
+
+tests:
+  - python:
+      imports:
+        - pyroll.cli
+      pip_check: true
+      python_version: ${{ python_min }}.*
+  - requirements:
+      run:
+        - pip
+        - python ${{ python_min }}.*
+    script:
+      - pyroll --help
+
+about:
+  summary: PyRoll rolling simulation framework - command line interface (CLI).
+  license: BSD-3-Clause
+  license_file: LICENSE
+  homepage: https://pyroll.readthedocs.io
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
